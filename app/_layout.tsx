@@ -1,37 +1,60 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import "react-native-reanimated";
+import { StyleSheet, Text, View } from "react-native";
+import { Slot, SplashScreen, Stack } from "expo-router";
+import "../global.css";
+import { useEffect } from "react";
+import { useFonts } from "expo-font";
 
-import { useColorScheme } from '@/hooks/useColorScheme';
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+  const [fontLoaded, error] = useFonts({
+    "Poppins-Black": require("../assets/fonts/Poppins-Black.ttf"),
+    "Poppins-Bold": require("../assets/fonts/Poppins-Bold.ttf"),
+    "Poppins-ExtraLight": require("../assets/fonts/Poppins-ExtraLight.ttf"),
+    "Poppins-ExtraBold": require("../assets/fonts/Poppins-ExtraBold.ttf"),
+    "Poppins-Medium": require("../assets/fonts/Poppins-Medium.ttf"),
+    "Poppins-Light": require("../assets/fonts/Poppins-Light.ttf"),
+    "Poppins-SemiBold": require("../assets/fonts/Poppins-SemiBold.ttf"),
+    "Poppins-Thin": require("../assets/fonts/Poppins-Thin.ttf"),
+    "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
   });
 
   useEffect(() => {
-    if (loaded) {
+    if (error) {
+      throw error;
+    }
+
+    if (fontLoaded) {
       SplashScreen.hideAsync();
     }
-  }, [loaded]);
+  }, [fontLoaded, error]);
 
-  if (!loaded) {
+  if (!fontLoaded && !error) {
     return null;
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    // <Stack>
+    //   <Stack.Screen name="index" options={{ headerShown: false }} />
+    // </Stack>
+    <>
+      {/* <View
+        className="align-items-center justify-center flex-1 align-middle"
+        style={styles.container}
+      >
+        <Text>RootLayout</Text>
+      </View> */}
+      {/* <View style={styles.container}>
+        <Text>Header</Text>
+        <Slot />
+        <Text>Footer</Text>
+      </View> */}
+
       <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+        {/* <Stack.Screen name="sign-in" options={{ headerShown: false }} /> */}
       </Stack>
-    </ThemeProvider>
+    </>
   );
 }
