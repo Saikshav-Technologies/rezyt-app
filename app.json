@@ -8,7 +8,7 @@
     "scheme": "rezyt",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/images/image.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

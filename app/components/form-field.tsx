@@ -20,7 +20,7 @@ const FormField = ({
   keyboardType: KeyboardTypeOptions;
   secureTextEntry: boolean;
   placeholder: string;
-  icon: string;
+  icon: any;
   iconStyles: string;
 }) => {
   return (
@@ -38,7 +38,7 @@ const FormField = ({
             secureTextEntry={secureTextEntry}
             keyboardType={keyboardType}
             placeholder={placeholder}
-            placeholderTextColor="#000000"
+            placeholderTextColor="#676767"
             cursorColor={"#000000"}
           />
         </View>

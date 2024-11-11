@@ -13,7 +13,7 @@ import FormField from "../components/form-field";
 import CustomButton from "../components/custom-button";
 import icons from "../../constants/icons";
 import { FaUserCircle } from "react-icons/fa";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import CircleView from "../components/circle";
 
 const SingIn = () => {
@@ -25,7 +25,7 @@ const SingIn = () => {
   return (
     <SafeAreaView className="bg-white h-full">
       <ScrollView>
-        <View className="ml-10 mr-10">
+        <View className="ml-10 mr-10 mt-10">
           <View className="w-full">
             <Text className="text-black-100 text-6xl  font-extrabold  ">
               Welcome
@@ -59,7 +59,9 @@ const SingIn = () => {
 
           <View className="flex-row justify-end mt-5">
             <View>
-              <Text className="text-primary">Forgot Password?</Text>
+              <Link href="/(auth)/forgot-password" className="text-primary">
+                Forgot Password ?
+              </Link>
             </View>
           </View>
 
@@ -83,15 +85,14 @@ const SingIn = () => {
               </Link>
             </Text>
 
-            <CustomButton
-              className=""
-              otherStyles="mt-10"
-              title="Login"
-              textStyles="text-white font-bold text-2xl"
-              onPress={() => {
-                console.log(form);
-              }}
-            />
+            <TouchableOpacity
+      className={`bg-primary w-full  min-h-[51px] rounded-full justify-center items-center mt-10 `}
+      onPress={() => {
+        router.push("/(tabs)/home");
+      }}
+    >
+      <Text >Login</Text>
+    </TouchableOpacity>
           </View>
         </View>
       </ScrollView>

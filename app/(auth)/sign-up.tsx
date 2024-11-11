@@ -6,7 +6,7 @@ import FormField from "../components/form-field";
 import CustomButton from "../components/custom-button";
 import icons from "../../constants/icons";
 import { FaUserCircle } from "react-icons/fa";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import CircleView from "../components/circle";
 
 const SignUp = () => {
@@ -20,7 +20,7 @@ const SignUp = () => {
   return (
     <SafeAreaView className="bg-white h-full">
       <ScrollView>
-        <View className="ml-10 mr-10">
+        <View className="ml-10 mr-10 mt-10">
           <View className="w-full">
             <Text className="text-black-100 text-6xl  font-extrabold  ">
               Create an
@@ -73,7 +73,7 @@ const SignUp = () => {
             <Text className="ml-2">I accept the terms and conditions</Text>
           </View>
 
-          <View className=" h-full flex items-center w-full ">
+          <View className=" h-full flex items-center w-full">
             <View className="mt-10">
               <Text className="text-black-200 mt-10 font-semibold ">
                 Or continue with
@@ -89,17 +89,17 @@ const SignUp = () => {
             <Text className="text-black-200 mt-10 font-semibold">
               Create a Account{" "}
               <Link href="/(auth)/sign-in" className="text-primary">
-                Sign Up
+                Sign In
               </Link>
             </Text>
 
             <CustomButton
               className=""
-              otherStyles="mt-10"
+              otherStyles="mt-10 mb-10"
               title="Login"
               textStyles="text-white font-bold text-2xl"
               onPress={() => {
-                console.log(form);
+                router.navigate("/(tabs)/home");
               }}
             />
           </View>
