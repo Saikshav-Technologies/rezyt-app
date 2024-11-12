@@ -15,6 +15,9 @@ import icons from "../../constants/icons";
 import { FaUserCircle } from "react-icons/fa";
 import { Link, router } from "expo-router";
 import CircleView from "../components/circle";
+import { Endpoints } from "../services/endpoints";
+import axios from "axios";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SingIn = () => {
   const [form, setForm] = useState({
@@ -22,6 +25,52 @@ const SingIn = () => {
     password: "",
   });
 
+  const handleInputChange = (field: string, value: string) => {
+    setForm({ ...form, [field]: value });
+  };
+
+  interface LoginData {
+    email: string;
+    password: string;
+    userType: string;
+  }
+
+  interface LoginResponse {
+    token: string;
+    // Other response properties
+  }
+
+  const handleLogin = async () => {
+    try {
+      const loginData: LoginData = {
+        email: form.email,
+        password: form.password,
+        userType: "user",
+      };
+
+      const response = await axios.post<LoginResponse>(
+        Endpoints.getBaseUrl() + Endpoints.LOGIN,
+        loginData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      // Store the token in local storage or context
+      const token = response.data.token;
+      await AsyncStorage.setItem("token", token);
+
+      // Redirect to the home screen
+  
+
+      console.log(token);
+    } catch (error) {
+      console.error(error);
+      // Handle login error response
+    }
+  };
   return (
     <SafeAreaView className="bg-white h-full">
       <ScrollView>
@@ -44,6 +93,7 @@ const SingIn = () => {
             secureTextEntry={false}
             icon={icons.user}
             iconStyles="w-[10%] h-6 justify-center bg-secondary align-middle items-center"
+            onChangeText={(text: string) => handleInputChange("email", text)}
           />
 
           <FormField
@@ -55,6 +105,7 @@ const SingIn = () => {
             secureTextEntry={true}
             icon={icons.password}
             iconStyles=""
+            onChangeText={(text: string) => handleInputChange("password", text)}
           />
 
           <View className="flex-row justify-end mt-5">
@@ -67,8 +118,8 @@ const SingIn = () => {
 
           <View className=" h-full flex items-center w-full ">
             <View className="mt-10">
-              <Text className="text-black mt-10 font-semibold ">
-                Or continue with
+              <Text className="text-fontPrimary mt-10 font-light ">
+                - Or continue with -
               </Text>
             </View>
 
@@ -78,21 +129,23 @@ const SingIn = () => {
               </TouchableOpacity>
             </View>
 
-            <Text className="text-black mt-10 font-semibold">
-              Create a Account{" "}
+            <Text className="text-fontPrimary mt-10 font-normal">
+              Create An Account{" "}
               <Link href="/(auth)/sign-up" className="text-primary">
                 Sign Up
               </Link>
             </Text>
 
             <TouchableOpacity
-      className={`bg-primary w-full  min-h-[51px] rounded-full justify-center items-center mt-10 `}
-      onPress={() => {
-        router.push("/(tabs)/home");
-      }}
-    >
-      <Text >Login</Text>
-    </TouchableOpacity>
+              className={`bg-primary w-full  min-h-[51px] rounded-[5px] justify-center items-center mt-10 `}
+              onPress={() => {
+                // router.push("/(tabs)/home");
+                handleLogin();
+                console.log(form);
+              }}
+            >
+              <Text className="text-white text-2xl font-normal">Login</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>

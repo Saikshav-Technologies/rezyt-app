@@ -13,6 +13,8 @@ const SignUp = () => {
   const [form, setForm] = useState({
     email: "",
     password: "",
+    confirmPassword: "",
+    
   });
 
   const [termsAccepted, setTermsAccepted] = useState(false);
@@ -70,13 +72,15 @@ const SignUp = () => {
                 termsAccepted ? "bg-primary" : ""
               }`}
             />
-            <Text className="ml-2">I accept the terms and conditions</Text>
+            <Text className="ml-2 text-fontPrimary">
+              I accept the terms and conditions
+            </Text>
           </View>
 
           <View className=" h-full flex items-center w-full">
             <View className="mt-10">
-              <Text className="text-black-200 mt-10 font-semibold ">
-                Or continue with
+              <Text className="text-fontPrimary mt-10 font-light ">
+                - Or continue with -
               </Text>
             </View>
 
@@ -86,8 +90,8 @@ const SignUp = () => {
               </TouchableOpacity>
             </View>
 
-            <Text className="text-black-200 mt-10 font-semibold">
-              Create a Account{" "}
+            <Text className="text-fontPrimary mt-10 font-normal">
+              Already have an account{" "}
               <Link href="/(auth)/sign-in" className="text-primary">
                 Sign In
               </Link>
@@ -96,8 +100,8 @@ const SignUp = () => {
             <CustomButton
               className=""
               otherStyles="mt-10 mb-10"
-              title="Login"
-              textStyles="text-white font-bold text-2xl"
+              title="Create Account"
+              textStyles="text-white font-normal text-2xl"
               onPress={() => {
                 router.navigate("/(tabs)/home");
               }}

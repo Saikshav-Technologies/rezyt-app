@@ -10,7 +10,7 @@ const CustomButton = ({
 }: any) => {
   return (
     <TouchableOpacity
-      className={`bg-primary w-full  min-h-[51px] rounded-full justify-center items-center mt-10 ${otherStyles}`}
+      className={`bg-primary w-full  min-h-[51px] rounded-[5px] justify-center items-center mt-10 ${otherStyles}`}
       
     >
       <Text className={`${textStyles}`}>{title}</Text>

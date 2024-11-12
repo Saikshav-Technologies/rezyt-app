@@ -67,8 +67,8 @@ const SingIn = () => {
 
           <View className=" h-full flex items-center w-full ">
             <View className="mt-10">
-              <Text className="text-black mt-10 font-semibold ">
-                Or continue with
+              <Text className="text-fontPrimary mt-10 font-light ">
+                - Or continue with -
               </Text>
             </View>
 
@@ -78,30 +78,20 @@ const SingIn = () => {
               </TouchableOpacity>
             </View>
 
-            <Text className="text-black mt-10 font-semibold">
-              Create a Account{" "}
+            <Text className="text-fontPrimary mt-10 font-normal">
+              Create An Account{" "}
               <Link href="/(auth)/sign-up" className="text-primary">
                 Sign Up
               </Link>
             </Text>
 
-            {/* <CustomButton
-                className=""
-                otherStyles="mt-10"
-                title="Login"
-                textStyles="text-white font-bold text-2xl"
-                onPress ={() => {
-                  router.push("/(tabs)/home")
-                }}
-                
-              /> */}
             <TouchableOpacity
-              className={`bg-primary w-full  min-h-[51px] rounded-full justify-center items-center mt-10 `}
+              className={`bg-primary w-full  min-h-[51px] rounded-[5px] justify-center items-center mt-10 `}
               onPress={() => {
-                router.push("/(tabs)/home");
+                // router.push("/(tabs)/home");
               }}
             >
-              <Text className="text-white font-bold text-2xl">Login</Text>
+              <Text className="text-white text-2xl font-normal">Login</Text>
             </TouchableOpacity>
           </View>
         </View>
