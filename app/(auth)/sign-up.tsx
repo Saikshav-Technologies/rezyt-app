@@ -8,14 +8,66 @@ import icons from "../../constants/icons";
 import { FaUserCircle } from "react-icons/fa";
 import { Link, router } from "expo-router";
 import CircleView from "../components/circle";
+import Toast from "react-native-simple-toast";
+import { Endpoints } from "../services/endpoints";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SignUp = () => {
   const [form, setForm] = useState({
+    userType: "user",
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
     confirmPassword: "",
-    
   });
+
+  const handleSignUp = async () => {
+    console.log("button clicked");
+    try {
+      if (form.password !== form.confirmPassword) {
+        Toast.show("Passwords do not match", Toast.LONG);
+        return;
+      }
+
+      if (!termsAccepted) {
+        Toast.show("Please accept terms and conditions", Toast.LONG);
+        return;
+      }
+      const registerData = {
+        userType: "user",
+        email: form.email,
+        password: form.password,
+        firstname: form.firstName,
+        lastname: form.lastName,
+      };
+
+      console.log("registerData", registerData);
+      const response = await axios.post(
+        Endpoints.getBaseUrl() + Endpoints.REGISTER,
+        registerData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log("response", response);
+      if (response.status === 201) {
+        Toast.show("Registration successful", Toast.LONG);
+        router.replace("/sign-in");
+        // Redirect to home screen
+      } else {
+        Toast.show("Registration failed, Please try again", Toast.LONG);
+      }
+    } catch (error) {
+      // console.error(error);
+      Toast.show("Registration failed, Please try again", Toast.LONG);
+      // Toast.show(error, Toast.LONG);
+    }
+  };
 
   const [termsAccepted, setTermsAccepted] = useState(false);
 
@@ -34,13 +86,38 @@ const SignUp = () => {
 
           <FormField
             title="Email"
-            value={form.email}
-            placeholder="Username or email"
+            value={form.firstName}
+            placeholder="First Name"
             otherStyles="bg-secondary text-black"
             keyboardType="email-address"
             secureTextEntry={false}
             icon={icons.user}
             iconStyles="w-[10%] h-6 justify-center bg-secondary align-middle items-center"
+            onChangeText={(text: any) => setForm({ ...form, firstName: text })}
+          />
+
+          <FormField
+            title="Email"
+            value={form.lastName}
+            placeholder="Last Name"
+            otherStyles="bg-secondary text-black"
+            keyboardType="email-address"
+            secureTextEntry={false}
+            icon={icons.user}
+            iconStyles="w-[10%] h-6 justify-center bg-secondary align-middle items-center"
+            onChangeText={(text: any) => setForm({ ...form, lastName: text })}
+          />
+
+          <FormField
+            title="Email"
+            value={form.email}
+            placeholder="Username or email"
+            otherStyles="bg-secondary text-black"
+            keyboardType="email-address"
+            secureTextEntry={false}
+            icon={icons.mail}
+            iconStyles="w-[10%] h-6 justify-center bg-secondary align-middle items-center"
+            onChangeText={(text: any) => setForm({ ...form, email: text })}
           />
 
           <FormField
@@ -52,6 +129,7 @@ const SignUp = () => {
             secureTextEntry={true}
             icon={icons.password}
             iconStyles=""
+            onChangeText={(text: any) => setForm({ ...form, password: text })}
           />
 
           <FormField
@@ -63,6 +141,9 @@ const SignUp = () => {
             secureTextEntry={true}
             icon={icons.password}
             iconStyles=""
+            onChangeText={(text: any) =>
+              setForm({ ...form, confirmPassword: text })
+            }
           />
 
           <View className="flex-row justify-start items-center mt-4">
@@ -77,6 +158,18 @@ const SignUp = () => {
             </Text>
           </View>
 
+          <TouchableOpacity
+            className={`bg-primary w-full  min-h-[51px] rounded-[5px] justify-center items-center mt-10 `}
+            onPress={() => {
+              // router.push("/(tabs)/home");
+              handleSignUp();
+              console.log(form);
+            }}
+          >
+            <Text className="text-white text-2xl font-normal">
+              Create Account
+            </Text>
+          </TouchableOpacity>
           <View className=" h-full flex items-center w-full">
             <View className="mt-10">
               <Text className="text-fontPrimary mt-10 font-light ">
@@ -90,22 +183,12 @@ const SignUp = () => {
               </TouchableOpacity>
             </View>
 
-            <Text className="text-fontPrimary mt-10 font-normal">
+            <Text className="text-fontPrimary mt-10 font-normal mb-10">
               Already have an account{" "}
               <Link href="/(auth)/sign-in" className="text-primary">
                 Sign In
               </Link>
             </Text>
-
-            <CustomButton
-              className=""
-              otherStyles="mt-10 mb-10"
-              title="Create Account"
-              textStyles="text-white font-normal text-2xl"
-              onPress={() => {
-                router.navigate("/(tabs)/home");
-              }}
-            />
           </View>
         </View>
       </ScrollView>

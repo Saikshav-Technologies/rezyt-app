@@ -15,6 +15,7 @@ import user from "../assets/icons/user.png";
 import password from "../assets/icons/password.png";
 import google from "../assets/icons/google.png";
 import mail from "../assets/icons/mail.png";
+import id from "../assets/icons/id.png";
 
 export default {
   play,
@@ -34,4 +35,5 @@ export default {
   password,
   google,
   mail,
+  id
 };
