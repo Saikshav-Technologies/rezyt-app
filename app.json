@@ -1,7 +1,6 @@
 {
   "expo": {
     "name": "rezyt",
-
     "slug": "rezyt",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -12,7 +11,6 @@
       "image": "./assets/images/rezyt1.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
-      
     },
     "ios": {
       "supportsTablet": true
@@ -37,6 +35,14 @@
     },
     "hermes": {
       "enabled": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "46653e5e-674d-4722-b0d8-13e8d6095976"
+      }
     }
   }
 }
