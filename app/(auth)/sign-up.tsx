@@ -15,7 +15,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Loader from "../components/loader";
 
 const SignUp = () => {
-
   const [isLoading, setIsLoading] = useState(false);
 
   const [form, setForm] = useState({
@@ -28,8 +27,12 @@ const SignUp = () => {
   });
 
   const handleSignUp = async () => {
-    console.log("button clicked");
     try {
+      if (!form.email || !form.password || !form.firstName || !form.lastName) {
+        Toast.show("All fields are required", Toast.SHORT);
+        return;
+      }
+
       if (form.password !== form.confirmPassword) {
         Toast.show("Passwords do not match", Toast.LONG);
         return;

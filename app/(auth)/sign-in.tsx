@@ -257,7 +257,7 @@ const SingIn = () => {
         .then(async (accessToken) => {
           try {
             await AsyncStorage.setItem("token", accessToken);
-            router.push("/(tabs)/home");
+            router.replace("/(tabs)/home");
           } catch (error) {
             console.error("Error setting token:", error);
           }

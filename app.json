@@ -4,20 +4,14 @@
     "slug": "rezyt",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/logo.png",
-    "scheme": "rezyt",
+    "icon": "./assets/appstore.png",
     "userInterfaceStyle": "automatic",
-    "splash": {
-      "image": "./assets/images/rezyt1.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/logo.png",
+        "foregroundImage": "./assets/appstore.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.saikshav.rezyt"
@@ -27,14 +21,14 @@
       "output": "static",
       "favicon": "./assets/favicon.png"
     },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "plugins": [
       "expo-router"
     ],
     "experiments": {
       "typedRoutes": true
-    },
-    "hermes": {
-      "enabled": true
     },
     "extra": {
       "router": {

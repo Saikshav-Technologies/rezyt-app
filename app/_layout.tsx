@@ -5,7 +5,7 @@ import "../global.css";
 import { useEffect } from "react";
 import { useFonts } from "expo-font";
 
-SplashScreen.preventAutoHideAsync();
+// SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [fontLoaded, error] = useFonts({
@@ -20,19 +20,19 @@ export default function RootLayout() {
     "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
   });
 
-  useEffect(() => {
-    if (error) {
-      throw error;
-    }
+  // useEffect(() => {
+  //   if (error) {
+  //     throw error;
+  //   }
 
-    if (fontLoaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [fontLoaded, error]);
+  //   if (fontLoaded) {
+  //     SplashScreen.hideAsync();
+  //   }
+  // }, [fontLoaded, error]);
 
-  if (!fontLoaded && !error) {
-    return null;
-  }
+  // if (!fontLoaded && !error) {
+  //   return null;
+  // }
 
   return (
     // <Stack>
