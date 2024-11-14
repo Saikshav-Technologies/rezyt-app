@@ -176,6 +176,7 @@ import {
   Image,
   Touchable,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -191,6 +192,7 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import Toast from "react-native-simple-toast";
+import Loader from "../components/loader";
 
 const SingIn = () => {
   const [form, setForm] = useState({
@@ -217,55 +219,58 @@ const SingIn = () => {
   }
 
   const handleLogin = async () => {
-    setIsLoading(true);
     console.log("button clicked from index");
+    try {
+      const loginData: LoginData = {
+        email: form.email,
+        password: form.password,
+        userType: "user",
+      };
 
-    const loginData: LoginData = {
-      email: form.email,
-      password: form.password,
-      userType: "user",
-    };
-
-    if (!loginData.email || !loginData.password) {
-      Toast.show("Please enter email and password", Toast.SHORT);
-      return;
+      if (!loginData.email || !loginData.password) {
+        Toast.show("Please enter email and password", Toast.SHORT);
+        return;
+      }
+      setIsLoading(true);
+      await axios
+        .post<LoginResponse>(
+          Endpoints.getBaseUrl() + Endpoints.LOGIN,
+          loginData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((response) => {
+          console.log("failed ", response);
+          setIsLoading(false);
+          let accessToken: string = "";
+          if (response.status == 200) {
+            accessToken = response.data.data.token;
+          }
+          if (response.data.data.status == "error") {
+            Toast.show(response.data.data.message, Toast.LONG);
+          }
+          return accessToken;
+        })
+        .then(async (accessToken) => {
+          try {
+            await AsyncStorage.setItem("token", accessToken);
+            router.push("/(tabs)/home");
+          } catch (error) {
+            console.error("Error setting token:", error);
+          }
+        })
+        .catch((error) => {
+          Toast.show("Invalid Credentials", Toast.LONG);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    } catch (error) {
+      Toast.show("Something went wrong, Please try again", Toast.LONG);
     }
-    await axios
-      .post<LoginResponse>(
-        Endpoints.getBaseUrl() + Endpoints.LOGIN,
-        loginData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then((response) => {
-        console.log("failed ", response);
-        setIsLoading(false);
-        let accessToken: string = "";
-        if (response.status == 200) {
-          accessToken = response.data.data.token;
-        }
-        if (response.data.data.status == "error") {
-          Toast.show(response.data.data.message, Toast.LONG);
-        }
-        return accessToken;
-      })
-      .then(async (accessToken) => {
-        try {
-          await AsyncStorage.setItem("token", accessToken);
-          router.push("/(tabs)/home");
-        } catch (error) {
-          console.error("Error setting token:", error);
-        }
-      })
-      .catch((error) => {
-        Toast.show("Something Went Wrong", Toast.LONG);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
   };
 
   return (
@@ -318,8 +323,13 @@ const SingIn = () => {
               handleLogin();
             }}
           >
+            {/* {isLoading && (
+              <View className="absolute top-0 left-0 right-0 bottom-0 justify-center items-center">
+                <ActivityIndicator size="large" color="#0000ff" />
+              </View>
+            )} */}
             <Text className="text-white text-2xl font-normal">
-              {isLoading ? "Loading..." : "Login"}
+              {isLoading ? <Loader /> : "Login"}
             </Text>
           </TouchableOpacity>
           <View className=" h-full flex items-center w-full ">

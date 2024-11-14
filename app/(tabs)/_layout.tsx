@@ -37,13 +37,13 @@ const TabLayout = () => {
       <Tabs
         screenOptions={{
           tabBarShowLabel: false,
-          tabBarActiveTintColor: "#FFA001",
+          tabBarActiveTintColor: "#FFFFFF",
           tabBarInactiveTintColor: "#CDCDE0",
           tabBarStyle: {
-            backgroundColor: "#161622",
+            backgroundColor: "#0BA3F6",
 
             borderTopWidth: 1,
-            borderTopColor: "#232533",
+            borderTopColor: "#0BA3F6",
             height: 84,
           },
         }}
@@ -70,8 +70,8 @@ const TabLayout = () => {
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
-                icon={icons.bookmark}
-                name="Bookmark"
+                icon={icons.favorites}
+                name="Favorites"
                 color={color}
                 focused={focused}
               />
@@ -85,8 +85,8 @@ const TabLayout = () => {
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
-                icon={icons.plus}
-                name="Create"
+                icon={icons.search}
+                name="Search"
                 color={color}
                 focused={focused}
               />

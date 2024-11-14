@@ -12,8 +12,12 @@ import Toast from "react-native-simple-toast";
 import { Endpoints } from "../services/endpoints";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Loader from "../components/loader";
 
 const SignUp = () => {
+
+  const [isLoading, setIsLoading] = useState(false);
+
   const [form, setForm] = useState({
     userType: "user",
     firstName: "",
@@ -35,6 +39,7 @@ const SignUp = () => {
         Toast.show("Please accept terms and conditions", Toast.LONG);
         return;
       }
+      setIsLoading(true);
       const registerData = {
         userType: "user",
         email: form.email,
@@ -56,6 +61,7 @@ const SignUp = () => {
 
       console.log("response", response);
       if (response.status === 201) {
+        setIsLoading(false);
         Toast.show("Registration successful", Toast.LONG);
         router.replace("/sign-in");
         // Redirect to home screen
@@ -66,6 +72,8 @@ const SignUp = () => {
       // console.error(error);
       Toast.show("Registration failed, Please try again", Toast.LONG);
       // Toast.show(error, Toast.LONG);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -167,7 +175,7 @@ const SignUp = () => {
             }}
           >
             <Text className="text-white text-2xl font-normal">
-              Create Account
+              {isLoading ? <Loader /> : "Sign Up"}
             </Text>
           </TouchableOpacity>
           <View className=" h-full flex items-center w-full">
