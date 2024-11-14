@@ -45,7 +45,7 @@ const FormField = ({
         <View className="w-full justify-center items-center  flex-row">
           <Image
             source={icon} // Replace with your image source
-            className={`w-[10%] h-6 justify-center bg-secondary align-middle items-center ${iconStyles}`}
+            className={`w-[10%] h-6 justify-center  bg-secondary align-middle items-center ${iconStyles}`}
             resizeMode="contain"
           />
           <TextInput

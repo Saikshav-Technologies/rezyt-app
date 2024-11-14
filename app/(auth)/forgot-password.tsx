@@ -13,14 +13,64 @@ import FormField from "../components/form-field";
 import CustomButton from "../components/custom-button";
 import icons from "../../constants/icons";
 import { FaUserCircle } from "react-icons/fa";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import CircleView from "../components/circle";
+import { Endpoints } from "../services/endpoints";
+import axios from "axios";
+import Toast from "react-native-simple-toast";
+import Loader from "../components/loader";
 
 const ForgotPassword = () => {
   const [form, setForm] = useState({
     email: "",
-    password: "",
   });
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmit = async () => {
+    try {
+      const data = {
+        userType: "user",
+        email: form.email,
+      };
+
+      if (!data.email) {
+        Toast.show("Please enter email", Toast.SHORT);
+        return;
+      }
+
+      setIsLoading(true);
+
+      await axios
+        .post(Endpoints.getBaseUrl() + Endpoints.FORGOT_PASSWORD, data)
+        .then((response) => {
+          console.log(response.data);
+          if (response.status == 200) {
+            setIsLoading(false);
+            Toast.show("Please check your email", Toast.LONG);
+            router.push("/(auth)/otp");
+          }
+        })
+        .catch((error) => {          
+          // console.error(error);
+          Toast.show("Please try again", Toast.LONG);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+
+      console.log(data);
+    } catch (error) {
+      // console.log(error);
+      Toast.show("Something went wrong", Toast.LONG);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleInputChange = (field: string, value: string) => {
+    setForm({ ...form, [field]: value });
+  };
 
   return (
     <SafeAreaView className="bg-white h-full">
@@ -39,10 +89,11 @@ const ForgotPassword = () => {
             title="Email"
             value={form.email}
             placeholder="Enter your email address"
-            otherStyles="bg-secondary text-secondary-100"
+            otherStyles="bg-secondary text-black"
             keyboardType="email-address"
             secureTextEntry={false}
             icon={icons.mail}
+            onChangeText={(text: string) => handleInputChange("email", text)}
             iconStyles="w-[10%] h-6 justify-center bg-secondary align-middle items-center"
           />
 
@@ -54,17 +105,21 @@ const ForgotPassword = () => {
             </View>
           </View>
 
-          <View className=" h-full flex items-center w-full ">
-            <CustomButton
-              className=""
-              otherStyles="mt-10 mb-10"
-              title="Submit"
-              textStyles="text-white font-bold text-2xl"
-              onPress={() => {
-                console.log(form);
-              }}
-            />
-          </View>
+          <TouchableOpacity
+            className={`bg-primary w-full  min-h-[51px] rounded-[5px] justify-center items-center mt-10 `}
+            onPress={() => {
+              handleSubmit();
+            }}
+          >
+            {/* {isLoading && (
+              <View className="absolute top-0 left-0 right-0 bottom-0 justify-center items-center">
+                <ActivityIndicator size="large" color="#0000ff" />
+              </View>
+            )} */}
+            <Text className="text-white text-2xl font-normal">
+              {isLoading ? <Loader /> : "Submit"}
+            </Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>

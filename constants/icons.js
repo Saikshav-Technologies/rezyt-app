@@ -17,6 +17,8 @@ import google from "../assets/icons/google.png";
 import mail from "../assets/icons/mail.png";
 import id from "../assets/icons/id.png";
 import favorites from "../assets/icons/favorites.png";
+import otp from "../assets/icons/otp.png";
+import frame from "../assets/images/ui/frame.png";
 
 export default {
   play,
@@ -38,4 +40,6 @@ export default {
   mail,
   id,
   favorites,
+  otp,
+  frame,
 };
