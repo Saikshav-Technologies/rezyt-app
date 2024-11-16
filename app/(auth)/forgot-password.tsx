@@ -19,6 +19,7 @@ import { Endpoints } from "../services/endpoints";
 import axios from "axios";
 import Toast from "react-native-simple-toast";
 import Loader from "../components/loader";
+import EmailValidation from "../utils/EmailValidation";
 
 const ForgotPassword = () => {
   const [form, setForm] = useState({
@@ -29,6 +30,11 @@ const ForgotPassword = () => {
 
   const handleSubmit = async () => {
     try {
+      if (!EmailValidation(form.email)) {
+        Toast.show("Please enter valid email", Toast.SHORT);
+        return;
+      }
+
       const data = {
         userType: "user",
         email: form.email,
@@ -44,24 +50,19 @@ const ForgotPassword = () => {
       await axios
         .post(Endpoints.getBaseUrl() + Endpoints.FORGOT_PASSWORD, data)
         .then((response) => {
-          console.log(response.data);
           if (response.status == 200) {
             setIsLoading(false);
             Toast.show("Please check your email", Toast.LONG);
             router.push("/(auth)/otp");
           }
         })
-        .catch((error) => {          
-          // console.error(error);
+        .catch((error) => {
           Toast.show("Please try again", Toast.LONG);
         })
         .finally(() => {
           setIsLoading(false);
         });
-
-      console.log(data);
     } catch (error) {
-      // console.log(error);
       Toast.show("Something went wrong", Toast.LONG);
     } finally {
       setIsLoading(false);
@@ -107,17 +108,14 @@ const ForgotPassword = () => {
 
           <TouchableOpacity
             className={`bg-primary w-full  min-h-[51px] rounded-[5px] justify-center items-center mt-10 `}
+            style={{ justifyContent: "center", alignItems: "center" }}
             onPress={() => {
               handleSubmit();
             }}
           >
-            {/* {isLoading && (
-              <View className="absolute top-0 left-0 right-0 bottom-0 justify-center items-center">
-                <ActivityIndicator size="large" color="#0000ff" />
-              </View>
-            )} */}
+            {isLoading && <Loader />}
             <Text className="text-white text-2xl font-normal">
-              {isLoading ? <Loader /> : "Submit"}
+              {isLoading ? "" : "Login"}
             </Text>
           </TouchableOpacity>
         </View>

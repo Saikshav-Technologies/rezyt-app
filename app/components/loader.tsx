@@ -3,7 +3,10 @@ import React from "react";
 
 const Loader = () => {
   return (
-    <View className="absolute top-0 left-0 right-0 bottom-0 justify-center items-center">
+    <View
+      className="absolute top-0 left-0 right-0 bottom-0 justify-center items-center"
+      style={{ zIndex: 1 }}
+    >
       <ActivityIndicator size="large" className="text-white" />
     </View>
   );

@@ -13,6 +13,7 @@ import { Endpoints } from "../services/endpoints";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Loader from "../components/loader";
+import EmailValidation from "../utils/EmailValidation";
 
 const SignUp = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -32,16 +33,16 @@ const SignUp = () => {
         Toast.show("All fields are required", Toast.SHORT);
         return;
       }
+      if (!EmailValidation(form.email)) {
+        Toast.show("Please enter valid email", Toast.SHORT);
+        return;
+      }
 
       if (form.password !== form.confirmPassword) {
         Toast.show("Passwords do not match", Toast.LONG);
         return;
       }
 
-      if (!termsAccepted) {
-        Toast.show("Please accept terms and conditions", Toast.LONG);
-        return;
-      }
       setIsLoading(true);
       const registerData = {
         userType: "user",
@@ -51,7 +52,6 @@ const SignUp = () => {
         lastname: form.lastName,
       };
 
-      console.log("registerData", registerData);
       const response = await axios.post(
         Endpoints.getBaseUrl() + Endpoints.REGISTER,
         registerData,
@@ -62,25 +62,24 @@ const SignUp = () => {
         }
       );
 
-      console.log("response", response);
       if (response.status === 201) {
         setIsLoading(false);
         Toast.show("Registration successful", Toast.LONG);
         router.replace("/sign-in");
-        // Redirect to home screen
       } else {
         Toast.show("Registration failed, Please try again", Toast.LONG);
       }
     } catch (error) {
-      // console.error(error);
       Toast.show("Registration failed, Please try again", Toast.LONG);
-      // Toast.show(error, Toast.LONG);
     } finally {
       setIsLoading(false);
     }
   };
 
   const [termsAccepted, setTermsAccepted] = useState(false);
+  const [secureTextEntryPassword, setSecureTextEntryPassword] = useState(true);
+  const [secureTextEntryConfirmPassword, setSecureTextEntryConfirmPassword] =
+    useState(true);
 
   return (
     <SafeAreaView className="bg-white h-full">
@@ -99,7 +98,7 @@ const SignUp = () => {
             title="Email"
             value={form.firstName}
             placeholder="First Name"
-            otherStyles="bg-secondary text-black"
+            otherStyles="bg-secondary text-black w-[90%]"
             keyboardType="email-address"
             secureTextEntry={false}
             icon={icons.user}
@@ -111,7 +110,7 @@ const SignUp = () => {
             title="Email"
             value={form.lastName}
             placeholder="Last Name"
-            otherStyles="bg-secondary text-black"
+            otherStyles="bg-secondary text-black w-[90%]"
             keyboardType="email-address"
             secureTextEntry={false}
             icon={icons.user}
@@ -123,7 +122,7 @@ const SignUp = () => {
             title="Email"
             value={form.email}
             placeholder="Username or email"
-            otherStyles="bg-secondary text-black"
+            otherStyles="bg-secondary text-black w-[90%]"
             keyboardType="email-address"
             secureTextEntry={false}
             icon={icons.mail}
@@ -137,9 +136,13 @@ const SignUp = () => {
             placeholder="Password"
             otherStyles="bg-secondary text-black"
             keyboardType="default"
-            secureTextEntry={true}
+            secureTextEntry={secureTextEntryPassword}
             icon={icons.password}
             iconStyles=""
+            eyeIcon={true}
+            eyeClick={() =>
+              setSecureTextEntryPassword(!secureTextEntryPassword)
+            }
             onChangeText={(text: any) => setForm({ ...form, password: text })}
           />
 
@@ -149,36 +152,35 @@ const SignUp = () => {
             placeholder="Confirm Password"
             otherStyles="bg-secondary text-black"
             keyboardType="default"
-            secureTextEntry={true}
+            secureTextEntry={secureTextEntryConfirmPassword}
             icon={icons.password}
             iconStyles=""
+            eyeIcon={true}
+            eyeClick={() =>
+              setSecureTextEntryConfirmPassword(!secureTextEntryConfirmPassword)
+            }
             onChangeText={(text: any) =>
               setForm({ ...form, confirmPassword: text })
             }
-          />
+          ></FormField>
 
           <View className="flex-row justify-start items-center mt-4">
-            <TouchableOpacity
-              onPress={() => setTermsAccepted(!termsAccepted)}
-              className={`w-4 h-4 border-2 border-black rounded-sm ${
-                termsAccepted ? "bg-primary" : ""
-              }`}
-            />
-            <Text className="ml-2 text-fontPrimary">
-              I accept the terms and conditions
+            <Text className="ml-2  text-secondary-100">
+              {`By clicking the `}
+              <Text className="text-blue-500">Create Account</Text>
+              {` button, you agree to the public offer`}
             </Text>
           </View>
 
           <TouchableOpacity
             className={`bg-primary w-full  min-h-[51px] rounded-[5px] justify-center items-center mt-10 `}
             onPress={() => {
-              // router.push("/(tabs)/home");
               handleSignUp();
-              console.log(form);
             }}
           >
+            {isLoading && <Loader />}
             <Text className="text-white text-2xl font-normal">
-              {isLoading ? <Loader /> : "Sign Up"}
+              {isLoading ? "" : "Create Account"}
             </Text>
           </TouchableOpacity>
           <View className=" h-full flex items-center w-full">

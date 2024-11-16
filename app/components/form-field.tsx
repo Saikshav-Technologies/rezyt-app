@@ -16,6 +16,9 @@ interface FormFieldProps {
   iconStyles: string;
   validate?: (value: string) => string | null;
   onChangeText?: any;
+  eyeIcon?: boolean;
+  iconType?: string;
+  eyeClick?: any;
 }
 
 const FormField = ({
@@ -29,27 +32,23 @@ const FormField = ({
   iconStyles,
   validate,
   onChangeText,
+  eyeIcon,
+  iconType,
+  eyeClick,
 }: FormFieldProps) => {
   const [error, setError] = React.useState<string | null>(null);
-
-  // const onChangeText = (text: string) => {
-  //   if (validate) {
-  //     const error = validate(text);
-  //     setError(error);
-  //   }
-  // };
 
   return (
     <View className="">
       <View className="w-full h-[55px] bg-secondary rounded-[5px] border-secondary-100 border justify-center mt-10  ">
         <View className="w-full justify-center items-center  flex-row">
           <Image
-            source={icon} // Replace with your image source
+            source={icon}
             className={`w-[10%] h-6 justify-center  bg-secondary align-middle items-center ${iconStyles}`}
             resizeMode="contain"
           />
           <TextInput
-            className={`text-black  w-[90%] ${otherStyles}`}
+            className={`text-black  w-[80%] ${otherStyles}`}
             secureTextEntry={secureTextEntry}
             keyboardType={keyboardType}
             placeholder={placeholder}
@@ -57,6 +56,22 @@ const FormField = ({
             cursorColor={"#000000"}
             onChangeText={onChangeText}
           />
+
+          {eyeIcon && (
+            <TouchableOpacity
+              style={{ width: "10%", height: "100%", justifyContent: "center" }}
+              onPress={() => {
+                eyeClick();
+              }}
+            >
+              <Image
+                source={secureTextEntry ? icons.eyeHide : icons.eye}
+                style={{ width: 20, height: 20 }}
+                className="justify-center   bg-secondary align-middle items-center"
+                resizeMode="contain"
+              />
+            </TouchableOpacity>
+          )}
         </View>
 
         {error && <Text className="text-red-500 text-sm">{error}</Text>}

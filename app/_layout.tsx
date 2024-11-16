@@ -5,8 +5,6 @@ import "../global.css";
 import { useEffect } from "react";
 import { useFonts } from "expo-font";
 
-// SplashScreen.preventAutoHideAsync();
-
 export default function RootLayout() {
   const [fontLoaded, error] = useFonts({
     "Poppins-Black": require("../assets/fonts/Poppins-Black.ttf"),
@@ -20,42 +18,12 @@ export default function RootLayout() {
     "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
   });
 
-  // useEffect(() => {
-  //   if (error) {
-  //     throw error;
-  //   }
-
-  //   if (fontLoaded) {
-  //     SplashScreen.hideAsync();
-  //   }
-  // }, [fontLoaded, error]);
-
-  // if (!fontLoaded && !error) {
-  //   return null;
-  // }
-
   return (
-    // <Stack>
-    //   <Stack.Screen name="index" options={{ headerShown: false }} />
-    // </Stack>
     <>
-      {/* <View
-        className="align-items-center justify-center flex-1 align-middle"
-        style={styles.container}
-      >
-        <Text>RootLayout</Text>
-      </View> */}
-      {/* <View style={styles.container}>
-        <Text>Header</Text>
-        <Slot />
-        <Text>Footer</Text>
-      </View> */}
-
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        {/* <Stack.Screen name="sign-in" options={{ headerShown: false }} /> */}
       </Stack>
     </>
   );

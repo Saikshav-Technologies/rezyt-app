@@ -10,7 +10,7 @@ module.exports = {
         fontPrimary: "#575757",
         secondary: {
           DEFAULT: "#F3F3F3",
-          100: "#C4C4C4",
+          100: "#676767",
           200: "#FF8E01",
         },
         black: {

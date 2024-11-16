@@ -37,40 +37,22 @@ const Otp = () => {
           </View>
 
           <FormField
-            title="Email"
+            title="Otp"
             value={form.otp}
             placeholder="Enter OTP"
-            otherStyles="bg-secondary text-secondary-100"
+            otherStyles="bg-secondary text-black w-[90%]"
             keyboardType="number-pad"
-            secureTextEntry={false}
+            secureTextEntry={true}
             icon={icons.otp}
             iconStyles="w-[10%] h-6 justify-center bg-secondary align-middle items-center"
-            
           />
-
-          {/* <View className="flex-row justify-start mt-5">
-              <View>
-                <Text className="text-secondary-100">
-                  We will send you a message to set or reset your new password
-                </Text>
-              </View>
-            </View> */}
-
           <TouchableOpacity
             className={`bg-primary w-full  min-h-[51px] rounded-[5px] justify-center items-center mt-10 `}
             onPress={() => {
               router.push("/(tabs)/home");
             }}
           >
-            {/* {isLoading && (
-              <View className="absolute top-0 left-0 right-0 bottom-0 justify-center items-center">
-                <ActivityIndicator size="large" color="#0000ff" />
-              </View>
-            )} */}
-            <Text className="text-white text-2xl font-normal">
-              {/* {isLoading ? <Loader /> : "Login"} */}
-              Submit
-            </Text>
+            <Text className="text-white text-2xl font-normal">Submit</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
