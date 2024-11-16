@@ -1,5 +1,12 @@
 // my-app/app/components/form-field.tsx
-import { View, Text, TextInput, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Image,
+  StyleSheet,
+} from "react-native";
 import React from "react";
 import { KeyboardTypeOptions } from "react-native";
 import icons from "../../constants/icons";
@@ -48,6 +55,7 @@ const FormField = ({
             resizeMode="contain"
           />
           <TextInput
+            style={styles.input}
             className={`text-black  w-[80%] ${otherStyles}`}
             secureTextEntry={secureTextEntry}
             keyboardType={keyboardType}
@@ -79,5 +87,11 @@ const FormField = ({
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  input: {
+    backgroundColor: "#F3F3F3",
+  },
+});
 
 export default FormField;

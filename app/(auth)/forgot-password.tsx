@@ -115,7 +115,7 @@ const ForgotPassword = () => {
           >
             {isLoading && <Loader />}
             <Text className="text-white text-2xl font-normal">
-              {isLoading ? "" : "Login"}
+              {isLoading ? "" : "Submit"}
             </Text>
           </TouchableOpacity>
         </View>
