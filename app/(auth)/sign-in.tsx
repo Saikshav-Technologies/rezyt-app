@@ -23,8 +23,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from "react-native-simple-toast";
 import Loader from "../components/loader";
 import EmailValidation from "../utils/EmailValidation";
+import { LoginRequest } from "../models/LoginRequest";
+import LoginResponse from "../models/LoginResponse";
+import AuthRoutes from "../routes/auth-routes";
 
 const SingIn = () => {
+  let accessToken: string = "";
+
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -41,31 +46,31 @@ const SingIn = () => {
     setSecureTextEntry(!secureTextEntry);
   };
 
-  interface LoginData {
+  interface loginRequest {
     email: string;
     password: string;
     userType: string;
   }
 
-  interface LoginResponse {
-    data: any;
-    token: string;
-  }
+  // interface LoginResponse {
+  //   data: any;
+  //   token: string;
+  // }
 
   const handleLogin = async () => {
     try {
-      const loginData: LoginData = {
-        email: form.email,
+      const loginRequest: LoginRequest = {
+        username: form.email,
         password: form.password,
         userType: "user",
       };
 
-      if (!loginData.email || !loginData.password) {
+      if (!loginRequest.username || !loginRequest.password) {
         Toast.show("Please enter email and password", Toast.SHORT);
         return;
       }
 
-      if (!EmailValidation(loginData.email)) {
+      if (!EmailValidation(loginRequest.username)) {
         Toast.show("Please enter valid email", Toast.SHORT);
         return;
       }
@@ -74,25 +79,41 @@ const SingIn = () => {
       await axios
         .post<LoginResponse>(
           Endpoints.getBaseUrl() + Endpoints.LOGIN,
-          loginData,
+          loginRequest,
           {
             headers: {
               "Content-Type": "application/json",
             },
+            validateStatus: (status) => {
+              console.log("status", status);
+              return true;
+            },
           }
         )
         .then((response) => {
-          setIsLoading(false);
-          let accessToken: string = "";
-          if (response.status == 200) {
-            accessToken = response.data.data.token;
+          console.log("response", response);
+          if (response.status == 200 && response.data.status == "success") {
+            return (accessToken = response.data.data.token);
+          } else if (
+            response.status == 200 &&
+            response.data.status == "2fa_required"
+          ) {
+            router.push("/(auth)/otp");
+            return;
+          } else {
+            Toast.show(response.data.message, Toast.LONG);
+            return;
           }
-          if (response.data.data.status == "error") {
-            Toast.show(response.data.data.message, Toast.LONG);
-          }
-          return accessToken;
         })
         .then(async (accessToken) => {
+          if (
+            !accessToken ||
+            accessToken == "" ||
+            accessToken == undefined ||
+            accessToken == null
+          ) {
+            return;
+          }
           try {
             await AsyncStorage.setItem("token", accessToken);
             router.replace("/(tabs)/home");
@@ -102,13 +123,15 @@ const SingIn = () => {
           }
         })
         .catch((error) => {
-          Toast.show("Invalid Credentials", Toast.LONG);
+          Toast.show("Something went wrong, Please try again", Toast.LONG);
         })
         .finally(() => {
           setIsLoading(false);
         });
     } catch (error) {
+      console.error("Error logging in:", error);
       Toast.show("Something went wrong, Please try again", Toast.LONG);
+      setIsLoading(false);
     }
   };
 

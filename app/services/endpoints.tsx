@@ -5,6 +5,7 @@ export class Endpoints {
   public static readonly LOGIN = "/auth/login";
   public static readonly REGISTER = "/auth/signup";
   public static readonly FORGOT_PASSWORD = "/auth/forgotPassword";
+  public static readonly OTP = "/auth/otp";
 
   public static getBaseUrl(): string {
     return Endpoints.BASE_URL;

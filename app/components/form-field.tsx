@@ -26,6 +26,8 @@ interface FormFieldProps {
   eyeIcon?: boolean;
   iconType?: string;
   eyeClick?: any;
+  verify?: boolean;
+  onVerify?: any;
 }
 
 const FormField = ({
@@ -42,6 +44,8 @@ const FormField = ({
   eyeIcon,
   iconType,
   eyeClick,
+  verify,
+  onVerify,
 }: FormFieldProps) => {
   const [error, setError] = React.useState<string | null>(null);
 
@@ -78,6 +82,17 @@ const FormField = ({
                 className="justify-center   bg-secondary align-middle items-center"
                 resizeMode="contain"
               />
+            </TouchableOpacity>
+          )}
+
+          {verify && (
+            <TouchableOpacity
+              style={{ width: "20%", height: "100%", justifyContent: "center" }}
+              onPress={() => {
+                onVerify();
+              }}
+            >
+              <Text className="text-primary">Verify</Text>
             </TouchableOpacity>
           )}
         </View>

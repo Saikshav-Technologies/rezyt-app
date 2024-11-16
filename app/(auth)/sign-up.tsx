@@ -93,35 +93,60 @@ const SignUp = () => {
               Account !
             </Text>
           </View>
+          <View className="flex flex-row">
+            <View className="w-[49%] mr-[1%]">
+              <FormField
+                title="Email"
+                value={form.firstName}
+                placeholder="First Name"
+                otherStyles="bg-secondary text-black w-[80%]"
+                keyboardType="email-address"
+                secureTextEntry={false}
+                icon={icons.user}
+                iconStyles="w-[20%] h-6 justify-center bg-secondary align-middle items-center"
+                onChangeText={(text: any) =>
+                  setForm({ ...form, firstName: text })
+                }
+              />
+            </View>
+            <View className="w-[49%] ml-[1%] justify-end float-end bg-green">
+              <FormField
+                title="Email"
+                value={form.lastName}
+                placeholder="Last Name"
+                otherStyles="bg-secondary text-black w-[78%]"
+                keyboardType="email-address"
+                secureTextEntry={false}
+                icon={icons.user}
+                iconStyles="w-[20%] h-6 justify-center bg-secondary align-middle items-center"
+                onChangeText={(text: any) =>
+                  setForm({ ...form, lastName: text })
+                }
+              />
+            </View>
+
+            <View className="w-1/2"></View>
+          </View>
 
           <FormField
-            title="Email"
-            value={form.firstName}
-            placeholder="First Name"
-            otherStyles="bg-secondary text-black w-[90%]"
-            keyboardType="email-address"
+            title="Password"
+            value={form.password}
+            placeholder="Mobile Number"
+            otherStyles="bg-secondary text-black w-[69%]"
+            keyboardType="default"
             secureTextEntry={false}
-            icon={icons.user}
-            iconStyles="w-[10%] h-6 justify-center bg-secondary align-middle items-center"
-            onChangeText={(text: any) => setForm({ ...form, firstName: text })}
-          />
-
-          <FormField
-            title="Email"
-            value={form.lastName}
-            placeholder="Last Name"
-            otherStyles="bg-secondary text-black w-[90%]"
-            keyboardType="email-address"
-            secureTextEntry={false}
-            icon={icons.user}
-            iconStyles="w-[10%] h-6 justify-center bg-secondary align-middle items-center"
-            onChangeText={(text: any) => setForm({ ...form, lastName: text })}
+            icon={icons.phone}
+            iconStyles=""
+            eyeIcon={false}
+            onVerify={() => router.push("/(auth)/otp")}
+            onChangeText={(text: any) => setForm({ ...form, password: text })}
+            verify={true}
           />
 
           <FormField
             title="Email"
             value={form.email}
-            placeholder="Username or email"
+            placeholder="Email"
             otherStyles="bg-secondary text-black w-[90%]"
             keyboardType="email-address"
             secureTextEntry={false}

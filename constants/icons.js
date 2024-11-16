@@ -19,6 +19,7 @@ import id from "../assets/icons/id.png";
 import favorites from "../assets/icons/favorites.png";
 import otp from "../assets/icons/otp.png";
 import frame from "../assets/images/ui/frame.png";
+import phone from "../assets/icons/phone.png";
 
 export default {
   play,
@@ -42,4 +43,5 @@ export default {
   favorites,
   otp,
   frame,
+  phone,
 };

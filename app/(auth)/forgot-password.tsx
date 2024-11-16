@@ -48,12 +48,18 @@ const ForgotPassword = () => {
       setIsLoading(true);
 
       await axios
-        .post(Endpoints.getBaseUrl() + Endpoints.FORGOT_PASSWORD, data)
+        .post(Endpoints.getBaseUrl() + Endpoints.FORGOT_PASSWORD, data, {
+          validateStatus: (status) => {
+            return true;
+          },
+        })
         .then((response) => {
           if (response.status == 200) {
             setIsLoading(false);
             Toast.show("Please check your email", Toast.LONG);
             router.push("/(auth)/otp");
+          } else {
+            Toast.show(response.data.message, Toast.LONG);
           }
         })
         .catch((error) => {
