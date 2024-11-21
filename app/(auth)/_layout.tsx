@@ -11,6 +11,7 @@ const AuthLayout = () => {
         <Stack.Screen name="sign-up" options={{ headerShown: false }} />
         <Stack.Screen name="forgot-password" options={{ headerShown: false }} />
         <Stack.Screen name="otp" options={{ headerShown: false }} />
+        <Stack.Screen name="otp-register" options={{ headerShown: false }} />
       </Stack>
 
       <StatusBar backgroundColor="#FFFFFF" style="light" />

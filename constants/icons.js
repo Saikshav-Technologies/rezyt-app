@@ -20,6 +20,8 @@ import favorites from "../assets/icons/favorites.png";
 import otp from "../assets/icons/otp.png";
 import frame from "../assets/images/ui/frame.png";
 import phone from "../assets/icons/phone.png";
+import close from "../assets/icons/close.png";
+import otpVerified from "../assets/images/otp-verified.png";
 
 export default {
   play,
@@ -44,4 +46,6 @@ export default {
   otp,
   frame,
   phone,
+  close,
+  otpVerified,
 };

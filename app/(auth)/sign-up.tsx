@@ -1,4 +1,13 @@
-import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+  Modal,
+  StyleSheet,
+  Button,
+} from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { images } from "../../constants";
@@ -14,10 +23,20 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Loader from "../components/loader";
 import EmailValidation from "../utils/EmailValidation";
+import OtpRegister from "./otp-register";
+import OtpModal from "../modals/otp-modal";
+import OtpVerifiedModal from "../modals/otp-verified-modal";
+import { Constants } from "../services/constants";
+import register from "../services/SignUp";
 
 const SignUp = () => {
   const [isLoading, setIsLoading] = useState(false);
-
+  const [secureTextEntryPassword, setSecureTextEntryPassword] = useState(true);
+  const [secureTextEntryConfirmPassword, setSecureTextEntryConfirmPassword] =
+    useState(true);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const openModal = () => setModalVisible(true);
+  const closeModal = () => setModalVisible(false);
   const [form, setForm] = useState({
     userType: "user",
     firstName: "",
@@ -25,6 +44,7 @@ const SignUp = () => {
     email: "",
     password: "",
     confirmPassword: "",
+    mobile: "",
   });
 
   const handleSignUp = async () => {
@@ -50,6 +70,8 @@ const SignUp = () => {
         password: form.password,
         firstname: form.firstName,
         lastname: form.lastName,
+        mobile: form.mobile,
+        isPhoneVerified: true,
       };
 
       const response = await axios.post(
@@ -76,10 +98,47 @@ const SignUp = () => {
     }
   };
 
-  const [termsAccepted, setTermsAccepted] = useState(false);
-  const [secureTextEntryPassword, setSecureTextEntryPassword] = useState(true);
-  const [secureTextEntryConfirmPassword, setSecureTextEntryConfirmPassword] =
-    useState(true);
+  const handleVerification = async () => {
+    //open otp modal
+
+    if (!form.mobile) {
+      Toast.show("Please enter mobile number", Toast.SHORT);
+      return;
+    }
+
+    if (form.mobile.length !== 10) {
+      Toast.show("Please enter valid mobile number", Toast.SHORT);
+      return;
+    }
+
+    const data = {
+      phone: form.mobile,
+    };
+
+    await axios
+      .post(Endpoints.getBaseUrl() + Endpoints.OTP_REGISTER, data, {
+        validateStatus: (status) => {
+          return true;
+        },
+      })
+      .then((response) => {
+        if (response.status == 200) {
+          Toast.show(response.data.message, Toast.LONG);
+          setModalVisible(true);
+        } else {
+          Toast.show(response.data.message, Toast.LONG);
+        }
+      })
+      .catch((error) => {
+        Toast.show(Constants.SOMETHING_WENT_WRONG, Toast.LONG);
+      });
+
+    console.log(form.mobile);
+  };
+
+  const handleCloseModal = () => {
+    setModalVisible(false);
+  };
 
   return (
     <SafeAreaView className="bg-white h-full">
@@ -129,19 +188,33 @@ const SignUp = () => {
           </View>
 
           <FormField
-            title="Password"
-            value={form.password}
+            title="Mobile Number"
+            value={form.mobile}
             placeholder="Mobile Number"
-            otherStyles="bg-secondary text-black w-[69%]"
-            keyboardType="default"
+            otherStyles="bg-secondary text-black w-70%]"
+            keyboardType="number-pad"
             secureTextEntry={false}
             icon={icons.phone}
             iconStyles=""
             eyeIcon={false}
-            onVerify={() => router.push("/(auth)/otp")}
-            onChangeText={(text: any) => setForm({ ...form, password: text })}
+            onVerify={handleVerification}
+            onChangeText={(text: any) => setForm({ ...form, mobile: text })}
             verify={true}
           />
+          <OtpModal
+            transparent={true}
+            animationType="slide"
+            visible={isModalVisible}
+            onRequestClose={() => setModalVisible(false)}
+            phone={form.mobile} // Android back button handler
+          >
+            <View style={styles.modalOverlay}>
+              <View style={styles.modalContent}>
+                <Text style={styles.modalText}>This is the Modal!</Text>
+                <Button title="Close" onPress={handleCloseModal} />
+              </View>
+            </View>
+          </OtpModal>
 
           <FormField
             title="Email"
@@ -233,5 +306,44 @@ const SignUp = () => {
     </SafeAreaView>
   );
 };
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#f2f2f2",
+  },
+  button: {
+    padding: 15,
+    backgroundColor: "#6200EE",
+    borderRadius: 8,
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 16,
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    width: "80%",
+    padding: 20,
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalText: {
+    fontSize: 18,
+    marginBottom: 15,
+    textAlign: "center",
+  },
+});
 
 export default SignUp;

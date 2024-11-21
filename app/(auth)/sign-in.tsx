@@ -140,7 +140,7 @@ const SingIn = () => {
       <ScrollView>
         <View className="ml-10 mr-10 mt-10">
           <View className="w-full">
-            <Text className="text-black-100 text-6xl  font-extrabold  ">
+            <Text className="text-black-100 text-6xl  font-extrabold  font-montserrat">
               Welcome
             </Text>
             <Text className="text-black-100 text-6xl  font-extrabold  ">
