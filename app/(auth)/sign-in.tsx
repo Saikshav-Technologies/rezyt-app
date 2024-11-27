@@ -26,6 +26,7 @@ import EmailValidation from "../utils/EmailValidation";
 import { LoginRequest } from "../models/LoginRequest";
 import LoginResponse from "../models/LoginResponse";
 import AuthRoutes from "../routes/auth-routes";
+import MobileValidation from "../utils/MobileValidation";
 
 const SingIn = () => {
   let accessToken: string = "";
@@ -71,8 +72,10 @@ const SingIn = () => {
       }
 
       if (!EmailValidation(loginRequest.username)) {
-        Toast.show("Please enter valid email", Toast.SHORT);
-        return;
+        if (!MobileValidation(loginRequest.username)) {
+          Toast.show("Please enter valid email or mobile number", Toast.SHORT);
+          return;
+        }
       }
 
       setIsLoading(true);

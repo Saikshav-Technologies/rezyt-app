@@ -21,6 +21,7 @@ import Toast from "react-native-simple-toast";
 import Loader from "../components/loader";
 import EmailValidation from "../utils/EmailValidation";
 import MobileValidation from "../utils/MobileValidation";
+import Otp from "./otp";
 
 const ForgotPassword = () => {
   const [form, setForm] = useState({
@@ -59,8 +60,11 @@ const ForgotPassword = () => {
         .then((response) => {
           if (response.status == 200) {
             setIsLoading(false);
-            Toast.show("Please check your email", Toast.LONG);
-            router.push("/(auth)/otp");
+            Toast.show(response.data.message, Toast.LONG);
+            router.push({
+              pathname: "/(auth)/otp",
+              params: { username: form.email, userType: "user" },
+            });
           } else {
             Toast.show(response.data.message, Toast.LONG);
           }
