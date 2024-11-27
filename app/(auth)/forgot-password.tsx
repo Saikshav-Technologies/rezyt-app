@@ -20,6 +20,7 @@ import axios from "axios";
 import Toast from "react-native-simple-toast";
 import Loader from "../components/loader";
 import EmailValidation from "../utils/EmailValidation";
+import MobileValidation from "../utils/MobileValidation";
 
 const ForgotPassword = () => {
   const [form, setForm] = useState({
@@ -30,17 +31,19 @@ const ForgotPassword = () => {
 
   const handleSubmit = async () => {
     try {
-      if (!EmailValidation(form.email)) {
-        Toast.show("Please enter valid email", Toast.SHORT);
-        return;
+      if (!MobileValidation(form.email)) {
+        if (!EmailValidation(form.email)) {
+          Toast.show("Please enter valid email or mobile number", Toast.SHORT);
+          return;
+        }
       }
 
       const data = {
         userType: "user",
-        email: form.email,
+        username: form.email,
       };
 
-      if (!data.email) {
+      if (!data.username) {
         Toast.show("Please enter email", Toast.SHORT);
         return;
       }

@@ -28,6 +28,7 @@ interface FormFieldProps {
   eyeClick?: any;
   verify?: boolean;
   onVerify?: any;
+  disabled?: boolean;
 }
 
 const FormField = ({
@@ -46,13 +47,14 @@ const FormField = ({
   eyeClick,
   verify,
   onVerify,
+  disabled,
 }: FormFieldProps) => {
   const [error, setError] = React.useState<string | null>(null);
 
   return (
     <View className="">
       <View className="w-full h-[55px] bg-secondary rounded-[5px] border-secondary-100 border justify-center mt-10  ">
-        <View className="w-full justify-center items-center  flex-row">
+        <View className="w-full justify-center items-center flex-row">
           <Image
             source={icon}
             className={`w-[10%] h-6 justify-center  bg-secondary align-middle items-center ${iconStyles}`}
@@ -67,11 +69,12 @@ const FormField = ({
             placeholderTextColor="#676767"
             cursorColor={"#000000"}
             onChangeText={onChangeText}
+            editable={!disabled}
           />
 
           {eyeIcon && (
             <TouchableOpacity
-              style={{ width: "10%", height: "100%", justifyContent: "center" }}
+              style={{ width: "10%", height: "100%", justifyContent: "center"}}
               onPress={() => {
                 eyeClick();
               }}
@@ -79,7 +82,7 @@ const FormField = ({
               <Image
                 source={secureTextEntry ? icons.eyeHide : icons.eye}
                 style={{ width: 20, height: 20 }}
-                className="justify-center   bg-secondary align-middle items-center"
+                className="justify-center bg-secondary align-middle items-center"
                 resizeMode="contain"
               />
             </TouchableOpacity>
@@ -91,8 +94,13 @@ const FormField = ({
               onPress={() => {
                 onVerify();
               }}
+              disabled={disabled}
             >
-              <Text className="text-primary">Verify</Text>
+              <Text className="text-primary">
+                
+                {disabled ? "Verified" : "Verify"}
+
+              </Text>
             </TouchableOpacity>
           )}
         </View>

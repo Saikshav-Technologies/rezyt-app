@@ -8,11 +8,10 @@ import {
   StyleSheet,
   Button,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { images } from "../../constants";
 import FormField from "../components/form-field";
-import CustomButton from "../components/custom-button";
 import icons from "../../constants/icons";
 import { FaUserCircle } from "react-icons/fa";
 import { Link, router } from "expo-router";
@@ -36,7 +35,13 @@ const SignUp = () => {
     useState(true);
   const [isModalVisible, setModalVisible] = useState(false);
   const openModal = () => setModalVisible(true);
-  const closeModal = () => setModalVisible(false);
+  const closeModal = (status: boolean) => {
+    if (status) {
+      console.log("status", status);
+    }
+    setModalVisible(false);
+  };
+  const [isOtpVerified, setIsOtpVerified] = useState(false);
   const [form, setForm] = useState({
     userType: "user",
     firstName: "",
@@ -63,6 +68,11 @@ const SignUp = () => {
         return;
       }
 
+      if (isOtpVerified === false) {
+        Toast.show("Please verify your mobile number", Toast.LONG);
+        return;
+      }
+
       setIsLoading(true);
       const registerData = {
         userType: "user",
@@ -71,7 +81,7 @@ const SignUp = () => {
         firstname: form.firstName,
         lastname: form.lastName,
         mobile: form.mobile,
-        isPhoneVerified: true,
+        isPhoneVerified: isOtpVerified,
       };
 
       const response = await axios.post(
@@ -99,8 +109,6 @@ const SignUp = () => {
   };
 
   const handleVerification = async () => {
-    //open otp modal
-
     if (!form.mobile) {
       Toast.show("Please enter mobile number", Toast.SHORT);
       return;
@@ -115,6 +123,7 @@ const SignUp = () => {
       phone: form.mobile,
     };
 
+    openModal();
     await axios
       .post(Endpoints.getBaseUrl() + Endpoints.OTP_REGISTER, data, {
         validateStatus: (status) => {
@@ -124,10 +133,11 @@ const SignUp = () => {
       .then((response) => {
         if (response.status == 200) {
           Toast.show(response.data.message, Toast.LONG);
-          setModalVisible(true);
         } else {
           Toast.show(response.data.message, Toast.LONG);
         }
+
+        setModalVisible(true);
       })
       .catch((error) => {
         Toast.show(Constants.SOMETHING_WENT_WRONG, Toast.LONG);
@@ -137,6 +147,19 @@ const SignUp = () => {
   };
 
   const handleCloseModal = () => {
+    setModalVisible(false);
+  };
+
+  const [dataFromChild, setDataFromChild] = useState(false);
+
+  // Callback function to handle data from the child
+  useEffect(() => {
+    console.log("Data from child:", dataFromChild);
+    setIsOtpVerified(dataFromChild);
+  }, [dataFromChild]);
+
+  const handleChildData = (data: boolean) => {
+    setDataFromChild(data);
     setModalVisible(false);
   };
 
@@ -191,7 +214,7 @@ const SignUp = () => {
             title="Mobile Number"
             value={form.mobile}
             placeholder="Mobile Number"
-            otherStyles="bg-secondary text-black w-70%]"
+            otherStyles="bg-secondary text-black w-[70%]"
             keyboardType="number-pad"
             secureTextEntry={false}
             icon={icons.phone}
@@ -200,20 +223,21 @@ const SignUp = () => {
             onVerify={handleVerification}
             onChangeText={(text: any) => setForm({ ...form, mobile: text })}
             verify={true}
+            disabled={dataFromChild}
           />
           <OtpModal
             transparent={true}
             animationType="slide"
             visible={isModalVisible}
-            onRequestClose={() => setModalVisible(false)}
+            onRequestClose={handleChildData}
             phone={form.mobile} // Android back button handler
           >
-            <View style={styles.modalOverlay}>
+            {/* <View style={styles.modalOverlay}>
               <View style={styles.modalContent}>
                 <Text style={styles.modalText}>This is the Modal!</Text>
                 <Button title="Close" onPress={handleCloseModal} />
               </View>
-            </View>
+            </View> */}
           </OtpModal>
 
           <FormField

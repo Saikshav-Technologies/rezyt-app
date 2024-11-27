@@ -27,7 +27,7 @@ const OtpVerifiedModal = ({
       transparent={transparent}
       animationType={animationType}
       visible={visible}
-      onRequestClose={onRequestClose} // Android back button handler
+      // onRequestClose={onRequestClose} // Android back button handler
     >
       <View style={styles.modalOverlay}>
         <View style={styles.modalContent}>
@@ -47,7 +47,6 @@ const OtpVerifiedModal = ({
             />
           </View>
 
-          {/* <Button title="Verify" onPress={onRequestClose} /> */}
         </View>
       </View>
     </Modal>

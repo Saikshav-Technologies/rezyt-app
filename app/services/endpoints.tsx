@@ -7,6 +7,7 @@ export class Endpoints {
   public static readonly FORGOT_PASSWORD = "/auth/forgotPassword";
   public static readonly OTP = "/auth/otp";
   public static readonly OTP_REGISTER = "/auth/send-phone-otp";
+  public static readonly OTP_VERIFY = "/auth/verify-phone-otp";
 
   public static getBaseUrl(): string {
     return Endpoints.BASE_URL;
