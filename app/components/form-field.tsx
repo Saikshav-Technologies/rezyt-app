@@ -71,10 +71,54 @@ const FormField = ({
             onChangeText={onChangeText}
             editable={!disabled}
           />
-
+          {verify && (
+            <TouchableOpacity
+              style={{ width: "10%", height: "100%", justifyContent: "center" }}
+              onPress={() => {
+                onVerify();
+              }}
+            >
+              {!disabled ? (
+                <Text className="text-primary text-[10px]">Verify</Text>
+              ) : (
+                <Image
+                  source={icons.verify}
+                  style={{ width: 20, height: 20 }}
+                  className="justify-center bg-secondary align-middle items-center"
+                  resizeMode="contain"
+                />
+              )}
+              {/* <Image
+                source={secureTextEntry ? icons.eyeHide : icons.eye}
+                style={{ width: 20, height: 20 }}
+                className="justify-center bg-secondary align-middle items-center"
+                resizeMode="contain"
+              /> */}
+            </TouchableOpacity>
+          )}
+          {/* {verify && (
+            <TouchableOpacity
+              style={{ width: "20%", height: "100%", justifyContent: "center" }}
+              onPress={() => {
+                onVerify();
+              }}
+              disabled={disabled}
+            >
+              {!disabled ? (
+                <Text className="text-primary">Verify</Text>
+              ) : (
+                <Image
+                  source={icons.verify}
+                  style={{ width: 20, height: 20 }}
+                  className="justify-center bg-secondary align-middle items-center"
+                  resizeMode="contain"
+                />
+              )}
+            </TouchableOpacity>
+          )} */}
           {eyeIcon && (
             <TouchableOpacity
-              style={{ width: "10%", height: "100%", justifyContent: "center"}}
+              style={{ width: "10%", height: "100%", justifyContent: "center" }}
               onPress={() => {
                 eyeClick();
               }}
@@ -87,25 +131,9 @@ const FormField = ({
               />
             </TouchableOpacity>
           )}
-
-          {verify && (
-            <TouchableOpacity
-              style={{ width: "20%", height: "100%", justifyContent: "center" }}
-              onPress={() => {
-                onVerify();
-              }}
-              disabled={disabled}
-            >
-              <Text className="text-primary">
-                
-                {disabled ? "Verified" : "Verify"}
-
-              </Text>
-            </TouchableOpacity>
-          )}
         </View>
 
-        {error && <Text className="text-red-500 text-sm">{error}</Text>}
+        {/* {error && <Text className="text-red-500 text-sm">{error}</Text>} */}
       </View>
     </View>
   );

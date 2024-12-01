@@ -37,11 +37,28 @@ const Otp = ({ phone }: { phone: string }) => {
   const glob = useGlobalSearchParams();
   const local = useLocalSearchParams();
 
+  const resendOtp = () => {
+    axios
+      .post(Endpoints.getBaseUrl() + Endpoints.FORGOT_PASSWORD, {
+        username: local.username,
+        userType: local.userType,
+      })
+      .then((response) => {
+        if (response.status == 200) {
+          Toast.show(response.data.message, Toast.SHORT);
+        } else {
+          Toast.show(response.data.message, Toast.SHORT);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+      .finally(() => {});
+  };
+
   const handleVerify = () => {
     const otpString = otp.join("");
 
-    console.log("glob", glob);
-    console.log("local ", local);
     if (otpString.length !== 6) {
       Toast.show("Please enter valid OTP", Toast.SHORT);
       return;
@@ -132,7 +149,11 @@ const Otp = ({ phone }: { phone: string }) => {
 
             <Text className="text-[14px] ml-2 text-center m-5 text-secondary-100">
               Didn't you receive the OTP?{" "}
-              <Text className="text-primary font-bold">Resend OTP</Text>
+              <Text className="text-primary font-bold">
+                <TouchableOpacity onPress={resendOtp}>
+                  <Text className="text-primary font-bold">Resend OTP</Text>
+                </TouchableOpacity>
+              </Text>
             </Text>
 
             <View className="flex-row justify-center">

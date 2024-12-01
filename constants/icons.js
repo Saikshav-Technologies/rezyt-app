@@ -22,6 +22,7 @@ import frame from "../assets/images/ui/frame.png";
 import phone from "../assets/icons/phone.png";
 import close from "../assets/icons/close.png";
 import otpVerified from "../assets/images/otp-verified.png";
+import verify from "../assets/icons/verify.png";
 
 export default {
   play,
@@ -48,4 +49,5 @@ export default {
   phone,
   close,
   otpVerified,
+  verify,
 };
