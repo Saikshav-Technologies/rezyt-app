@@ -48,9 +48,7 @@ const ForgotPassword = () => {
         Toast.show("Please enter email", Toast.SHORT);
         return;
       }
-
       setIsLoading(true);
-
       await axios
         .post(Endpoints.getBaseUrl() + Endpoints.FORGOT_PASSWORD, data, {
           validateStatus: (status) => {
@@ -81,11 +79,9 @@ const ForgotPassword = () => {
       setIsLoading(false);
     }
   };
-
   const handleInputChange = (field: string, value: string) => {
     setForm({ ...form, [field]: value });
   };
-
   return (
     <SafeAreaView className="bg-white h-full">
       <ScrollView>
@@ -103,14 +99,14 @@ const ForgotPassword = () => {
             title="Email"
             value={form.email}
             placeholder="Enter your email address"
-            otherStyles="bg-secondary text-black"
+            otherStyles="bg-secondary text-black w-[90%]"
             keyboardType="email-address"
             secureTextEntry={false}
             icon={icons.mail}
             onChangeText={(text: string) => handleInputChange("email", text)}
-            iconStyles="w-[10%] h-6 justify-center bg-secondary align-middle items-center"
+            iconStyles="w-[10%] h-6   bg-secondary align-middle items-center
+            "
           />
-
           <View className="flex-row justify-start mt-5">
             <View>
               <Text className="text-secondary-100">
@@ -118,9 +114,8 @@ const ForgotPassword = () => {
               </Text>
             </View>
           </View>
-
           <TouchableOpacity
-            className={`bg-primary w-full  min-h-[51px] rounded-[5px] justify-center items-center mt-10 `}
+            className={`bg-primary w-full  min-h-[51px] rounded-[5px] justify-center items-center mt-10`}
             style={{ justifyContent: "center", alignItems: "center" }}
             onPress={() => {
               handleSubmit();
@@ -136,5 +131,4 @@ const ForgotPassword = () => {
     </SafeAreaView>
   );
 };
-
 export default ForgotPassword;
