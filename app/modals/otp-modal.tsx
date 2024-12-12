@@ -74,6 +74,7 @@ const OtpModal = ({
         setIsLoading(false);
       });
   };
+
   return (
     <KeyboardAvoidingView
       behavior="padding"
@@ -88,7 +89,7 @@ const OtpModal = ({
       >
         {!otpVerified && (
           <View style={styles.modalOverlay}>
-            <View style={styles.modalContent}>
+            <View style={styles.modalContent} className="h-[385px] w-[338px]">
               <View className="m-0 absolute top-5 right-5">
                 <TouchableOpacity onPress={sendDataToParent}>
                   <Image source={icons.close} className="w-5 h-5" />
@@ -98,7 +99,7 @@ const OtpModal = ({
                 OTP Verification
               </Text>
 
-              <Text className="text-sm ml-2 text-secondary-100 mt-10">
+              <Text className="text-sm ml-2 text-center text-secondary-100 mt-10">
                 Enter the OTP sent to{" "}
                 <Text className="font-bold">
                   {`+91-`}
@@ -134,10 +135,16 @@ const OtpModal = ({
                   />
                 ))}
               </View>
-              <Text className="text-xs ml-2 text-center m-5 text-secondary-100">
-                Didn't you receive the OTP?{" "}
-                <Text className="text-primary font-bold">Resend OTP</Text>
-              </Text>
+              <View className="flex-row justify-center">
+                <Text className="text-[14px] ml-2 text-center mt-5 mr-2  text-secondary-100">
+                  Didn't you receive the OTP?{""}
+                </Text>
+                <TouchableOpacity onPress={() => {}}>
+                  <Text className="text-[14px] mt-5 mb-5 text-primary font-bold">
+                    Resend OTP
+                  </Text>
+                </TouchableOpacity>
+              </View>
 
               <View className="flex-row justify-center">
                 <TouchableOpacity
@@ -155,7 +162,7 @@ const OtpModal = ({
         )}
         {otpVerified && (
           <View style={styles.modalOverlay}>
-            <View style={styles.modalContent}>
+            <View style={styles.modalContent} className="h-[385px] w-[338px]">
               <View className="m-0 absolute top-5 right-5">
                 <TouchableOpacity onPress={sendDataToParent}>
                   <Image source={icons.close} className="w-5 h-5" />
@@ -218,8 +225,8 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContent: {
-    width: "80%",
-    height: "60%",
+    // width: "338",
+    // height: "385",
     padding: 20,
     backgroundColor: "#fff",
     borderRadius: 10,

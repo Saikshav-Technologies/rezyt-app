@@ -146,16 +146,16 @@ const Otp = ({ phone }: { phone: string }) => {
                 />
               ))}
             </View>
-
-            <Text className="text-[14px] ml-2 text-center m-5 text-secondary-100">
-              Didn't you receive the OTP?{" "}
-              <Text className="text-primary font-bold">
-                <TouchableOpacity onPress={resendOtp}>
-                  <Text className="text-primary font-bold">Resend OTP</Text>
-                </TouchableOpacity>
+            <View className="flex-row justify-center">
+              <Text className="text-[14px] ml-2 text-center mt-5 mr-2  text-secondary-100">
+                Didn't you receive the OTP?{""}
               </Text>
-            </Text>
-
+              <TouchableOpacity onPress={resendOtp}>
+                <Text className="text-[14px] mt-5 mb-5 text-primary font-bold">
+                  Resend OTP
+                </Text>
+              </TouchableOpacity>
+            </View>
             <View className="flex-row justify-center">
               <TouchableOpacity
                 className="bg-primary w-[80%] min-h-[45px] rounded-[5px] justify-center items-center mt-5"

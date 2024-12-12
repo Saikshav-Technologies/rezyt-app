@@ -214,7 +214,7 @@ const SignUp = () => {
             title="Mobile Number"
             value={form.mobile}
             placeholder="Mobile Number"
-            otherStyles="bg-secondary text-black"
+            otherStyles="bg-secondary text-black w-[75%]"
             keyboardType="number-pad"
             secureTextEntry={false}
             icon={icons.phone}

@@ -53,7 +53,7 @@ const FormField = ({
 
   return (
     <View className="">
-      <View className="w-full h-[55px] bg-secondary rounded-[5px] border-secondary-100 border justify-center mt-10  ">
+      <View className="w-full h-[55px] bg-secondary rounded-[5px] border-secondary-100 border justify-center mt-5  ">
         <View className="w-full justify-center items-center flex-row">
           <Image
             source={icon}
@@ -73,13 +73,17 @@ const FormField = ({
           />
           {verify && (
             <TouchableOpacity
-              style={{ width: "10%", height: "100%", justifyContent: "center" }}
+              style={{
+                width: "10%",
+                height: "100%",
+                justifyContent: "center",
+              }}
               onPress={() => {
                 onVerify();
               }}
             >
               {!disabled ? (
-                <Text className="text-primary text-[10px]">Verify</Text>
+                <Text className="text-primary text-[11px] ">Verify </Text>
               ) : (
                 <Image
                   source={icons.verify}
