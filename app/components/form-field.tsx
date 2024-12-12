@@ -30,7 +30,6 @@ interface FormFieldProps {
   onVerify?: any;
   disabled?: boolean;
 }
-
 const FormField = ({
   title,
   value,
@@ -54,7 +53,7 @@ const FormField = ({
   return (
     <View className="">
       <View className="w-full h-[55px] bg-secondary rounded-[5px] border-secondary-100 border justify-center mt-5  ">
-        <View className="w-full justify-center items-center flex-row">
+        <View className=" w-full justify-center items-center flex-row">
           <Image
             source={icon}
             className={`w-[10%] h-6 justify-center  bg-secondary align-middle items-center ${iconStyles}`}
@@ -83,11 +82,13 @@ const FormField = ({
               }}
             >
               {!disabled ? (
-                <Text className="text-primary text-[11px] ">Verify </Text>
+                <Text className="text-primary text-[13px] font-extrabold   relative -ml-4 underline">
+                  Verify{" "}
+                </Text>
               ) : (
                 <Image
                   source={icons.verify}
-                  style={{ width: 20, height: 20 }}
+                  style={{ width: 15, height: 15 }}
                   className="justify-center bg-secondary align-middle items-center"
                   resizeMode="contain"
                 />
@@ -148,5 +149,4 @@ const styles = StyleSheet.create({
     backgroundColor: "#F3F3F3",
   },
 });
-
 export default FormField;
